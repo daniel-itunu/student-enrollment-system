@@ -1,19 +1,21 @@
 package com.flexisaf.challenge.challenge.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-@Entity
+@Entity(name = "Student")
 @Table(name = "student")
 public class Student {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "incrementor")
+    @GenericGenerator(name="incrementor", strategy="increment")
     private long id;
 
     @Column(name = "first_name")
@@ -31,9 +33,10 @@ public class Student {
     @Column(name = "date_of_birth")
     private String dateOfBirth;
 
-    @Column(name = "department")
-    private String department;
-
+    //@JsonIgnore
+    @ManyToOne
+    //@JoinColumn(name="department_id", nullable=false)
+    private Department department;
 
     @Column(name = "matric_number")
     private String matricNumber;
