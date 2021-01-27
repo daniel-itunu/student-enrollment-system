@@ -12,7 +12,10 @@ import java.util.Set;
 public class Department {
     @Id
     @GeneratedValue
-    private long id;
+    private long _id;
+
+    @Column(name = "id")
+    private String id;
 
     @Column(name = "name")
     private String name;

@@ -35,7 +35,6 @@ public class Student {
 
     //@JsonIgnore
     @ManyToOne
-    //@JoinColumn(name="department_id", nullable=false)
     private Department department;
 
     @Column(name = "matric_number")

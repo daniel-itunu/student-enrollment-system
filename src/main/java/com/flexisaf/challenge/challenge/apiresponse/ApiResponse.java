@@ -16,6 +16,12 @@ public class ApiResponse<T> {
         this.message = message;
     }
 
+    public ApiResponse(HttpStatus status, String message, T data) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
+    }
+
     private String message;
     private T data;
     private List<?> errors;
