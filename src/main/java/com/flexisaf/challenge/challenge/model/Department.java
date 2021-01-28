@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -25,6 +24,6 @@ public class Department {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "department",  fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
     private List<Student> students;
 }

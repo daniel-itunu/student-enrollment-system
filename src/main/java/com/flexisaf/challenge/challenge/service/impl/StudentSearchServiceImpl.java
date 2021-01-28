@@ -19,13 +19,15 @@ public class StudentSearchServiceImpl implements StudentSearchService {
     }
 
     @Override
-    public List<Student> getSearchResult(String input) throws Exception {
+    public List<Student> getSearchResult(String input) {
         List<Student> students = new ArrayList<>();
         List<Student> studentList = studentRepository.findAll();
+        String in = input.toLowerCase();
         if(!input.toLowerCase().contains(" ")){
             studentList.stream().forEach(student -> {
-                if(student.getFirstName().equals(input) || student.getLastName().equals(input) ||
-                 student.getDepartment().equals(input) || student.getOtherName().equals(input) || student.getGender().equals(input)){
+                if(student.getFirstName().toLowerCase().equals(in) || student.getLastName().toLowerCase().equals(in) ||
+                 student.getDepartment().getName().toLowerCase().equals(in) || student.getOtherName().toLowerCase().equals(in) || student.getGender().toLowerCase().equals(in)){
+                    student.setId(0L);
                     students.add(student);
                 }
             });
@@ -35,16 +37,18 @@ public class StudentSearchServiceImpl implements StudentSearchService {
             return students;
 
         } else if(input.toLowerCase().contains(" ") && input.toLowerCase().matches("[a-z A-Z]")){
-            String fullNames[] = input.split(" ");
+            String fullNames[] = in.split(" ");
             if(fullNames.length == 2){
                studentList.stream().forEach(student -> {
-                   if(student.getFirstName().equals(fullNames[0]) && student.getLastName().equals(fullNames[1])){
+                   if(student.getFirstName().toLowerCase().equals(fullNames[0]) && student.getLastName().toLowerCase().equals(fullNames[1])){
+                       student.setId(0L);
                        students.add(student);
                    }
                });
             } else if(fullNames.length == 3){
                 studentList.stream().forEach(student -> {
-                    if(student.getFirstName().equals(fullNames[0]) && student.getLastName().equals(fullNames[1]) && student.getOtherName().equals(fullNames[2])){
+                    if(student.getFirstName().toLowerCase().equals(fullNames[0]) && student.getLastName().toLowerCase().equals(fullNames[1]) && student.getOtherName().toLowerCase().equals(fullNames[2])){
+                        student.setId(0L);
                         students.add(student);
                     }
                 });
@@ -55,13 +59,14 @@ public class StudentSearchServiceImpl implements StudentSearchService {
             return students;
 
         } else if(input.toLowerCase().contains("-") ){
-            String dates[] = input.split(" to ");
+            String dates[] = in.split(" to ");
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime start = LocalDateTime.parse(dates[0], formatter);
             LocalDateTime end = LocalDateTime.parse(dates[1], formatter);
 
             studentList.stream().forEach(student -> {
                 if((start.isEqual(student.getCreatedAt()) || start.isBefore(student.getCreatedAt())) && (end.isEqual(student.getCreatedAt()) || end.isAfter(student.getCreatedAt()))){
+                    student.setId(0L);
                     students.add(student);
                 }
             });

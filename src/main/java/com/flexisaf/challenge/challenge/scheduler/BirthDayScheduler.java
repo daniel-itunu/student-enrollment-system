@@ -18,7 +18,6 @@ public class BirthDayScheduler {
         this.studentService = studentService;
     }
 
-
     //@Scheduled(cron="*/10 * * * * *")
     @Scheduled(cron="0 0 0 * * ?")
     public void sendBirthdayMessage() throws Exception {

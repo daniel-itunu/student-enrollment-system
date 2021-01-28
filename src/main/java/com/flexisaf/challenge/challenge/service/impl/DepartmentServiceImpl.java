@@ -22,8 +22,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public String addDepartment(DepartmentDto departmentDto) {
         Department department = new Department();
-        department.setName(departmentDto.getName());
-        department.setId(departmentDto.getId());
+        department.setName(departmentDto.getName().toLowerCase());
+        department.setId(departmentDto.getId().toLowerCase());
         Department savedDepartment = departmentRepository.save(department);
         if(savedDepartment == null){
             return "failed to add department";
@@ -32,8 +32,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public DepartmentDto findDepartmentByName(String name) throws Exception {
-        Department department = departmentRepository.findDepartmentByName(name);
+    public DepartmentDto findDepartmentByName(String name) {
+        Department department = departmentRepository.findDepartmentByName(name.toLowerCase());
         if(department == null){
             throw new GenericException("department not found, add one first");
         }
@@ -42,7 +42,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<DepartmentDto> retrieveDepartments() throws Exception {
+    public List<DepartmentDto> retrieveDepartments() {
        List<Department> departments = departmentRepository.findAll();
        if(departments.size() == 0){
            throw new GenericException("empty list of department, add a department first");

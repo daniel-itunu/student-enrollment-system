@@ -9,7 +9,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestControllerAdvice
@@ -26,13 +25,13 @@ public class CustomExceptionHandler {
         exception.getBindingResult().getAllErrors().forEach((error) -> {
             errors.put(((FieldError) error).getField(), error.getDefaultMessage());
         });
-        return new ResponseEntity<>(new ApiResponse("Invalid validation","failed",
+        return new ResponseEntity<>(new ApiResponse("Invalid validation", "failed",
                 errors), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(GenericException.class)
     public ResponseEntity<?> handleGenericException(GenericException exception) {
-        return new ResponseEntity<>(new ApiResponse( exception.getLocalizedMessage(),"failed"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ApiResponse(exception.getLocalizedMessage(), "failed"), HttpStatus.BAD_REQUEST);
     }
 }
 
