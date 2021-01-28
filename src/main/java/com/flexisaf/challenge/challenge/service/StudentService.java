@@ -8,8 +8,12 @@ import java.util.List;
 @Service
 public interface StudentService {
     String addStudent(StudentDto studentDto);
+
     List<StudentDto> retrieveStudents() throws Exception;
+
     String deleteStudent(String matricNumber);
+
     StudentDto retrieveStudent(String matricNumber) throws Exception;
+
     String updateStudent(StudentDto studentDto, String matricNumber);
 }

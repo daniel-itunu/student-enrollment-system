@@ -19,6 +19,7 @@ public class Scheduler {
     }
 
 
+    //@Scheduled(cron="*/10 * * * * *")
     @Scheduled(cron="0 0 0 * * ?")
     public void sendBirthdayMessage() throws Exception {
         List<StudentDto> studentList = studentService.retrieveStudents();
@@ -27,14 +28,12 @@ public class Scheduler {
         String day = localDate.split("-")[2];
         studentList.stream().forEach(studentDto -> {
             String birthDate = studentDto.getDateOfBirth();
-            if( month==birthDate.split("-")[1] && day==birthDate.split("-")[2]){
-                //send sms
-                Twilio.init("AC9e01a9b4702e9902a2bd1438211c4f88", "b094443e12f5dd280b5f0cf79de84119");
-                Message.creator(new PhoneNumber(studentDto.getPhoneNumber()), new PhoneNumber("+15594713475"), "Happy birthday" +
+            if( month.equals(birthDate.split("-")[1]) && day.equals(birthDate.split("-")[2])){
+                Twilio.init("", "");
+                Message.creator(new PhoneNumber(studentDto.getPhoneNumber()), new PhoneNumber("+15594713475"), "Happy birthday " +
                         ""+studentDto.getFirstName()+" "+studentDto.getLastName()+
-                        "Flexisaf wishes you a wonderful year ahead").create();
+                        "! Flexisaf wishes you a wonderful year ahead").create();
             }
         });
-
     }
 }

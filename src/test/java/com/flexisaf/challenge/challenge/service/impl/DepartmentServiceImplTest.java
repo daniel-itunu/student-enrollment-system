@@ -1,7 +1,9 @@
 package com.flexisaf.challenge.challenge.service.impl;
 
 import com.flexisaf.challenge.challenge.dto.DepartmentDto;
+import com.flexisaf.challenge.challenge.dto.StudentDto;
 import com.flexisaf.challenge.challenge.model.Department;
+import com.flexisaf.challenge.challenge.model.Student;
 import com.flexisaf.challenge.challenge.repository.DepartmentRepository;
 import com.flexisaf.challenge.challenge.repository.StudentRepository;
 import com.flexisaf.challenge.challenge.service.DepartmentService;
