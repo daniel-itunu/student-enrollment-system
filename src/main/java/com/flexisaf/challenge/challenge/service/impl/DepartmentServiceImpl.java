@@ -25,7 +25,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         if(savedDepartment == null){
             return "failed to add department";
         }
-        return "department added successfully";
+        return "department added";
     }
 
     @Override
@@ -45,10 +45,13 @@ public class DepartmentServiceImpl implements DepartmentService {
            throw new Exception("empty list of department, add a department first");
        }
        List<DepartmentDto> departmentDtos = new ArrayList<>();
-       for(Department department: departments){
-           DepartmentDto departmentDto = modelMapper.map(department, DepartmentDto.class);
-           departmentDtos.add(departmentDto);
-       }
+        departments.stream().forEach(department -> {
+           DepartmentDto departmentDto = new DepartmentDto();
+            departmentDto.setId(department.getId());
+            departmentDto.setName(department.getName());
+            departmentDto.setCreatedAt(department.getCreatedAt().toString());
+            departmentDtos.add(departmentDto);
+        });
        return departmentDtos;
     }
 }

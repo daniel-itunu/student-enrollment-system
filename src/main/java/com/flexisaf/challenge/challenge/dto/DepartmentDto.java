@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 public class DepartmentDto {
     private String name;
     private String id;
+    private String createdAt;
 }

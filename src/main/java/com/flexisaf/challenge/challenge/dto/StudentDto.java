@@ -23,4 +23,6 @@ public class StudentDto {
 
     private String matricNumber;
 
+    private String createdAt;
+
 }

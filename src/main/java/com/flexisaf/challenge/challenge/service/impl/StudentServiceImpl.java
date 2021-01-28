@@ -6,14 +6,21 @@ import com.flexisaf.challenge.challenge.model.Student;
 import com.flexisaf.challenge.challenge.repository.DepartmentRepository;
 import com.flexisaf.challenge.challenge.repository.StudentRepository;
 import com.flexisaf.challenge.challenge.service.StudentService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final DepartmentRepository departmentRepository;
+    private final ModelMapper modelMapper = new ModelMapper();
 
     public StudentServiceImpl(StudentRepository studentRepository, DepartmentRepository departmentRepository) {
         this.studentRepository = studentRepository;
@@ -23,7 +30,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public String addStudent(StudentDto studentDto) {
         Department department = departmentRepository.findDepartmentByName(studentDto.getDepartment());
-        if(department == null){
+        if (department == null) {
             return "department not found";
         } else {
             Student student = new Student();
@@ -33,34 +40,86 @@ public class StudentServiceImpl implements StudentService {
             student.setDateOfBirth(studentDto.getDateOfBirth());
             student.setGender(studentDto.getGender());
             student.setDepartment(department);
-            Integer number;
-            Integer size = studentRepository.findAll().size();
-            if (size == 0) {
-                number = 1;
-            } else {
-                number = size+1;
+
+            //age
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate birthDate = LocalDate.parse(studentDto.getDateOfBirth(), formatter);
+            Integer years = Period.between(birthDate, LocalDate.now()).getYears();
+            if (years >= 18 && years <= 25) {
+                Integer number;
+                Integer size = studentRepository.findAll().size();
+                if (size == 0) {
+                    number = 1;
+                } else {
+                    number = size + 1;
+                }
+                student.setMatricNumber("FLEXISAF/00" + number);
+                Student addedStudent = studentRepository.save(student);
+                if (addedStudent == null) {
+                    return "failed to add Student";
+                }
+                return "student added with matric number FLEXISAF/00" + number;
             }
-            student.setMatricNumber("FLEXISAF/00"+number);
-            Student addedStudent = studentRepository.save(student);
-            if(addedStudent==null){
-                return "failed to add Student";
-            }
-            return "student added successfully with matric number FLEXISAF/00"+number;
+            return "student should be between age 18 and 25";
         }
     }
 
     @Override
-    public List<Student> retrieveStudents() {
-        return null;
+    public List<StudentDto> retrieveStudents() throws Exception {
+        List<Student>  students = studentRepository.findAll();
+        if(students.size() == 0){
+            throw new Exception("no student has been registered");
+        }
+        List<StudentDto> studentDtos = new ArrayList<>();
+        students.stream().forEach(student -> {
+            StudentDto studentDto = new StudentDto();
+            studentDto.setFirstName(student.getFirstName());
+            studentDto.setOtherName(student.getOtherName());
+            studentDto.setLastName(student.getLastName());
+            studentDto.setMatricNumber(student.getMatricNumber());
+            studentDto.setDepartment(student.getDepartment().getName());
+            studentDto.setDateOfBirth(student.getDateOfBirth());
+            studentDto.setGender(student.getGender());
+            studentDto.setCreatedAt(student.getCreatedAt().toString());
+            studentDtos.add(studentDto);
+
+        });
+        return studentDtos;
     }
 
     @Override
-    public void deleteStudent(String matricNumber) {
-
+    public String deleteStudent(String matricNumber) {
+        studentRepository.deleteStudentByMatricNumber(matricNumber);
+        return "student "+matricNumber+" deleted";
     }
 
     @Override
-    public Student retrieveStudent(String matricNumber) {
-        return null;
+    public StudentDto retrieveStudent(String matricNumber) throws Exception {
+        Student student = studentRepository.getStudentByMatricNumber(matricNumber);
+        if(student == null){
+            throw  new Exception("Student not found");
+        }
+        StudentDto studentDto = modelMapper.map(student, StudentDto.class);
+        return studentDto;
+    }
+
+    @Override
+    public String updateStudent(StudentDto studentDto, String matricNumber) {
+        Department department = departmentRepository.findDepartmentByName(studentDto.getDepartment());
+        if(department == null){
+            return "department not found";
+        } else{
+            Student student = studentRepository.getStudentByMatricNumber(matricNumber);
+            student.setFirstName(studentDto.getFirstName());
+            student.setOtherName(studentDto.getOtherName());
+            student.setLastName(studentDto.getLastName());
+            student.setDepartment(department);
+            student.setDateOfBirth(studentDto.getDateOfBirth());
+            Student updatedStudent = studentRepository.save(student);
+            if(updatedStudent==null){
+                return "failed to update Student";
+            }
+            return "student "+matricNumber+" updated";
+        }
     }
 }

@@ -33,7 +33,7 @@ public class Student {
     @Column(name = "date_of_birth")
     private String dateOfBirth;
 
-    //@JsonIgnore
+    @JsonIgnore
     @ManyToOne
     private Department department;
 
