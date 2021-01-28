@@ -4,6 +4,7 @@ import com.flexisaf.challenge.challenge.apiresponse.ApiResponse;
 import com.flexisaf.challenge.challenge.dto.DepartmentDto;
 import com.flexisaf.challenge.challenge.service.DepartmentService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class DepartmentController {
     }
 
     @PostMapping("/department")
-    public ResponseEntity<ApiResponse<String>> addDepartment(@RequestBody DepartmentDto departmentDto){
+    public ResponseEntity<ApiResponse<String>> addDepartment(@Validated(DepartmentDto.Validation.class) @RequestBody DepartmentDto departmentDto){
         ApiResponse apiResponse = new ApiResponse(departmentService.addDepartment(departmentDto),"success");
         return ResponseEntity.ok(apiResponse);
     }

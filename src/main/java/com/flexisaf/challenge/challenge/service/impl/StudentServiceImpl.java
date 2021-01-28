@@ -8,9 +8,7 @@ import com.flexisaf.challenge.challenge.repository.StudentRepository;
 import com.flexisaf.challenge.challenge.service.StudentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -39,6 +37,7 @@ public class StudentServiceImpl implements StudentService {
             student.setLastName(studentDto.getLastName());
             student.setDateOfBirth(studentDto.getDateOfBirth());
             student.setGender(studentDto.getGender());
+            student.setPhoneNumber(studentDto.getPhoneNumber());
             student.setDepartment(department);
 
             //age
@@ -80,6 +79,7 @@ public class StudentServiceImpl implements StudentService {
             studentDto.setDepartment(student.getDepartment().getName());
             studentDto.setDateOfBirth(student.getDateOfBirth());
             studentDto.setGender(student.getGender());
+            studentDto.setPhoneNumber(student.getPhoneNumber());
             studentDto.setCreatedAt(student.getCreatedAt().toString());
             studentDtos.add(studentDto);
 
@@ -115,6 +115,7 @@ public class StudentServiceImpl implements StudentService {
             student.setLastName(studentDto.getLastName());
             student.setDepartment(department);
             student.setDateOfBirth(studentDto.getDateOfBirth());
+            student.setPhoneNumber(studentDto.getPhoneNumber());
             Student updatedStudent = studentRepository.save(student);
             if(updatedStudent==null){
                 return "failed to update Student";

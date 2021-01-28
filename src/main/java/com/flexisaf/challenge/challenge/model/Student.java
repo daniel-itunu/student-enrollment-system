@@ -40,6 +40,9 @@ public class Student {
     @Column(name = "matric_number")
     private String matricNumber;
 
+    @Column(name = "phone_Number")
+    private String phoneNumber;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 }

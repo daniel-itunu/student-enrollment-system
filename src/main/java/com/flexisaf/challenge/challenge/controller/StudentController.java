@@ -5,6 +5,7 @@ import com.flexisaf.challenge.challenge.dto.StudentDto;
 import com.flexisaf.challenge.challenge.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public ResponseEntity<ApiResponse<String>> addStudent(@RequestBody StudentDto studentDto){
+    public ResponseEntity<ApiResponse<String>> addStudent(@Validated(StudentDto.Validation.class) @RequestBody StudentDto studentDto){
         ApiResponse apiResponse = new ApiResponse(studentService.addStudent(studentDto),"success" );
         return ResponseEntity.ok(apiResponse);
     }
@@ -43,7 +44,7 @@ public class StudentController {
     }
 
     @PutMapping("/students/{matricNumber}")
-    public ResponseEntity<ApiResponse<String>> updateStudent(@RequestBody StudentDto studentDto, @PathVariable String matricNumber) throws Exception {
+    public ResponseEntity<ApiResponse<String>> updateStudent(@Validated(StudentDto.Validation.class) @RequestBody StudentDto studentDto, @PathVariable String matricNumber) throws Exception {
         ApiResponse apiResponse = new ApiResponse(studentService.updateStudent(studentDto, matricNumber),"success" );
         return ResponseEntity.ok(apiResponse);
     }
