@@ -1,13 +1,10 @@
 package com.flexisaf.challenge.challenge.service.impl;
 
 import com.flexisaf.challenge.challenge.exception.GenericException;
-import com.flexisaf.challenge.challenge.model.Department;
 import com.flexisaf.challenge.challenge.model.Student;
-import com.flexisaf.challenge.challenge.repository.DepartmentRepository;
 import com.flexisaf.challenge.challenge.repository.StudentRepository;
 import com.flexisaf.challenge.challenge.service.StudentSearchService;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,11 +13,9 @@ import java.util.List;
 @Service
 public class StudentSearchServiceImpl implements StudentSearchService {
     private final StudentRepository studentRepository;
-    private final DepartmentRepository departmentRepository;
 
-    public StudentSearchServiceImpl(StudentRepository studentRepository, DepartmentRepository departmentRepository) {
+    public StudentSearchServiceImpl(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
-        this.departmentRepository = departmentRepository;
     }
 
     @Override
@@ -38,7 +33,7 @@ public class StudentSearchServiceImpl implements StudentSearchService {
                 throw new GenericException("no student found");
             }
             return students;
-            //fullname
+
         } else if(input.toLowerCase().contains(" ") && input.toLowerCase().matches("[a-z A-Z]")){
             String fullNames[] = input.split(" ");
             if(fullNames.length == 2){
@@ -79,62 +74,5 @@ public class StudentSearchServiceImpl implements StudentSearchService {
         } else {
             throw new GenericException("no student found");
         }
-    }
-
-    @Override
-    public List<Student> getAllByDepartment(String input) throws Exception {
-        Department department = departmentRepository.findDepartmentByName(input);
-        if(department != null) {
-            List<Student> students = studentRepository.getAllByDepartment__id(department.get_id());
-            if (students.size() != 0) {
-                return students;
-            }
-        }
-        return List.of();
-    }
-
-    @Override
-    public List<Student> getAllByFirstName(String firstName) throws Exception {
-        List<Student> students = studentRepository.getAllByFirstName(firstName);
-        if(students.size() != 0){
-            return students;
-        }
-        return List.of();
-    }
-
-    @Override
-    public List<Student> getAllByLastName(String lastName) throws Exception {
-        List<Student> students = studentRepository.getAllByLastName(lastName);
-        if(students.size() != 0){
-            return students;
-        }
-        return List.of();
-    }
-
-    @Override
-    public List<Student> getAllByOtherName(String otherName) throws Exception {
-        List<Student> students = studentRepository.getAllByOtherName(otherName);
-        if(students.size() != 0){
-            return students;
-        }
-        return List.of();
-    }
-
-    @Override
-    public List<Student> getAllByGender(String gender) throws Exception {
-        List<Student> students = studentRepository.getAllByGender(gender);
-        if(students.size() != 0){
-            return students;
-        }
-        return List.of();
-    }
-
-    @Override
-    public List<Student> getAllByCreatedAt(String createdAt) throws Exception {
-        List<Student> students = studentRepository.getAllByCreatedAt(createdAt);
-        if(students.size() != 0){
-            return students;
-        }
-        return List.of();
     }
 }

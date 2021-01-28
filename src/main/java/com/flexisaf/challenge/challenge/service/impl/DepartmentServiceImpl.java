@@ -21,7 +21,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public String addDepartment(DepartmentDto departmentDto) {
-        Department department = modelMapper.map(departmentDto, Department.class);
+        Department department = new Department();
+        department.setName(departmentDto.getName());
+        department.setId(departmentDto.getId());
         Department savedDepartment = departmentRepository.save(department);
         if(savedDepartment == null){
             return "failed to add department";

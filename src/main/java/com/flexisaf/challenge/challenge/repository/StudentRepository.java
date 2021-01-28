@@ -17,4 +17,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> getAllByDepartment(String name);
     List<Student> getAllByDepartment__id(long id);
 
+    Student save(Student student);
 }

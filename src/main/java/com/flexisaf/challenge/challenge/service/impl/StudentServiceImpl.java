@@ -7,7 +7,6 @@ import com.flexisaf.challenge.challenge.model.Student;
 import com.flexisaf.challenge.challenge.repository.DepartmentRepository;
 import com.flexisaf.challenge.challenge.repository.StudentRepository;
 import com.flexisaf.challenge.challenge.service.StudentService;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Period;
@@ -29,7 +28,7 @@ public class StudentServiceImpl implements StudentService {
     public String addStudent(StudentDto studentDto) {
         Department department = departmentRepository.findDepartmentByName(studentDto.getDepartment());
         if (department == null) {
-            throw new GenericException("department not found");
+            throw new GenericException("department not found, add a department first");
         } else {
             Student student = new Student();
             student.setFirstName(studentDto.getFirstName());
@@ -40,7 +39,6 @@ public class StudentServiceImpl implements StudentService {
             student.setPhoneNumber(studentDto.getPhoneNumber());
             student.setDepartment(department);
 
-            //age
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate birthDate = LocalDate.parse(studentDto.getDateOfBirth(), formatter);
             Integer years = Period.between(birthDate, LocalDate.now()).getYears();
@@ -91,7 +89,7 @@ public class StudentServiceImpl implements StudentService {
     public String deleteStudent(String matricNumber) {
         Student student = studentRepository.getStudentByMatricNumber("FLEXISAF/"+matricNumber);
         if(student == null){
-            throw new GenericException("Student not found");
+            throw new GenericException("Student not found, add a student first");
         }
         studentRepository.delete(student);
         return "student FLEXISAF/"+matricNumber+" deleted";

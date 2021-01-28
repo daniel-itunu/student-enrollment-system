@@ -29,7 +29,7 @@ public class Scheduler {
             String birthDate = studentDto.getDateOfBirth();
             if( month==birthDate.split("-")[1] && day==birthDate.split("-")[2]){
                 //send sms
-                Twilio.init("AC9e01a9b4702e9902a2bd1438211c4f88", "c5e1527aac7ace08e246dbc75568e135");
+                Twilio.init("AC9e01a9b4702e9902a2bd1438211c4f88", "b094443e12f5dd280b5f0cf79de84119");
                 Message.creator(new PhoneNumber(studentDto.getPhoneNumber()), new PhoneNumber("+15594713475"), "Happy birthday" +
                         ""+studentDto.getFirstName()+" "+studentDto.getLastName()+
                         "Flexisaf wishes you a wonderful year ahead").create();
