@@ -1,4 +1,4 @@
-package com.flexisaf.challenge.challenge.util;
+package com.flexisaf.challenge.challenge.scheduler;
 
 import com.flexisaf.challenge.challenge.dto.StudentDto;
 import com.flexisaf.challenge.challenge.service.StudentService;
@@ -11,10 +11,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Component
-public class Scheduler {
+public class BirthDayScheduler {
     private final StudentService studentService;
 
-    public Scheduler(StudentService studentService) {
+    public BirthDayScheduler(StudentService studentService) {
         this.studentService = studentService;
     }
 
