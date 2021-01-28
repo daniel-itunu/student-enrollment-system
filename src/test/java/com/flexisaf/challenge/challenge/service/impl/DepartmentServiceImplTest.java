@@ -17,14 +17,9 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class DepartmentServiceImplTest {
-    @Autowired
-    private StudentService studentService;
 
     @Autowired
     private DepartmentService departmentService;
-
-    @MockBean
-    private StudentRepository studentRepository;
 
     @MockBean
     private DepartmentRepository departmentRepository;
