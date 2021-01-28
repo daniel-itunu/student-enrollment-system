@@ -1,5 +1,6 @@
 package com.flexisaf.challenge.challenge.service.impl;
 
+import com.flexisaf.challenge.challenge.exception.GenericException;
 import com.flexisaf.challenge.challenge.model.Department;
 import com.flexisaf.challenge.challenge.model.Student;
 import com.flexisaf.challenge.challenge.repository.DepartmentRepository;
@@ -7,13 +8,10 @@ import com.flexisaf.challenge.challenge.repository.StudentRepository;
 import com.flexisaf.challenge.challenge.service.StudentSearchService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class StudentSearchServiceImpl implements StudentSearchService {
@@ -37,7 +35,7 @@ public class StudentSearchServiceImpl implements StudentSearchService {
                 }
             });
             if(students.size() == 0){
-                throw new Exception("no student found");
+                throw new GenericException("no student found");
             }
             return students;
             //fullname
@@ -57,7 +55,7 @@ public class StudentSearchServiceImpl implements StudentSearchService {
                 });
             }
             if(students.size() == 0){
-                throw new Exception("no student found");
+                throw new GenericException("no student found");
             }
             return students;
 
@@ -74,12 +72,12 @@ public class StudentSearchServiceImpl implements StudentSearchService {
             });
 
             if(students.size() == 0){
-                throw new Exception("no student found");
+                throw new GenericException("no student found");
             }
             return students;
 
         } else {
-            throw new Exception("no student found");
+            throw new GenericException("no student found");
         }
     }
 

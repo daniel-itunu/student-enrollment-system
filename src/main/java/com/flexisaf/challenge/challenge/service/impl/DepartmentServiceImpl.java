@@ -1,6 +1,7 @@
 package com.flexisaf.challenge.challenge.service.impl;
 
 import com.flexisaf.challenge.challenge.dto.DepartmentDto;
+import com.flexisaf.challenge.challenge.exception.GenericException;
 import com.flexisaf.challenge.challenge.model.Department;
 import com.flexisaf.challenge.challenge.repository.DepartmentRepository;
 import com.flexisaf.challenge.challenge.service.DepartmentService;
@@ -32,7 +33,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public DepartmentDto findDepartmentByName(String name) throws Exception {
         Department department = departmentRepository.findDepartmentByName(name);
         if(department == null){
-            throw new Exception("department not found, add one first");
+            throw new GenericException("department not found, add one first");
         }
         DepartmentDto departmentDto = modelMapper.map(department, DepartmentDto.class);
         return departmentDto;
@@ -42,7 +43,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<DepartmentDto> retrieveDepartments() throws Exception {
        List<Department> departments = departmentRepository.findAll();
        if(departments.size() == 0){
-           throw new Exception("empty list of department, add a department first");
+           throw new GenericException("empty list of department, add a department first");
        }
        List<DepartmentDto> departmentDtos = new ArrayList<>();
         departments.stream().forEach(department -> {

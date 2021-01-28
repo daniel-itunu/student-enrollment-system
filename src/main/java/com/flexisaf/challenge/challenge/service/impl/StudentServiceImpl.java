@@ -1,6 +1,7 @@
 package com.flexisaf.challenge.challenge.service.impl;
 
 import com.flexisaf.challenge.challenge.dto.StudentDto;
+import com.flexisaf.challenge.challenge.exception.GenericException;
 import com.flexisaf.challenge.challenge.model.Department;
 import com.flexisaf.challenge.challenge.model.Student;
 import com.flexisaf.challenge.challenge.repository.DepartmentRepository;
@@ -29,7 +30,7 @@ public class StudentServiceImpl implements StudentService {
     public String addStudent(StudentDto studentDto) {
         Department department = departmentRepository.findDepartmentByName(studentDto.getDepartment());
         if (department == null) {
-            return "department not found";
+            throw new GenericException("department not found");
         } else {
             Student student = new Student();
             student.setFirstName(studentDto.getFirstName());
@@ -55,11 +56,11 @@ public class StudentServiceImpl implements StudentService {
                 student.setMatricNumber("FLEXISAF/00" + number);
                 Student addedStudent = studentRepository.save(student);
                 if (addedStudent == null) {
-                    return "failed to add Student";
+                    throw new GenericException("failed to add Student");
                 }
                 return "student added with matric number FLEXISAF/00" + number;
             }
-            return "student should be between age 18 and 25";
+            throw new GenericException("student should be between age 18 and 25");
         }
     }
 
@@ -67,7 +68,7 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentDto> retrieveStudents() throws Exception {
         List<Student>  students = studentRepository.findAll();
         if(students.size() == 0){
-            throw new Exception("no student has been registered");
+            throw new GenericException("no student has been registered");
         }
         List<StudentDto> studentDtos = new ArrayList<>();
         students.stream().forEach(student -> {
@@ -97,7 +98,7 @@ public class StudentServiceImpl implements StudentService {
     public StudentDto retrieveStudent(String matricNumber) throws Exception {
         Student student = studentRepository.getStudentByMatricNumber(matricNumber);
         if(student == null){
-            throw  new Exception("Student not found");
+            throw new GenericException("Student not found");
         }
         StudentDto studentDto = modelMapper.map(student, StudentDto.class);
         return studentDto;
@@ -107,7 +108,7 @@ public class StudentServiceImpl implements StudentService {
     public String updateStudent(StudentDto studentDto, String matricNumber) {
         Department department = departmentRepository.findDepartmentByName(studentDto.getDepartment());
         if(department == null){
-            return "department not found";
+            throw new GenericException("department not found");
         } else{
             Student student = studentRepository.getStudentByMatricNumber(matricNumber);
             student.setFirstName(studentDto.getFirstName());
@@ -118,7 +119,7 @@ public class StudentServiceImpl implements StudentService {
             student.setPhoneNumber(studentDto.getPhoneNumber());
             Student updatedStudent = studentRepository.save(student);
             if(updatedStudent==null){
-                return "failed to update Student";
+                throw new GenericException("failed to update Student");
             }
             return "student "+matricNumber+" updated";
         }

@@ -3,7 +3,6 @@ package com.flexisaf.challenge.challenge.apiresponse;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 public class ApiResponse<T> {
@@ -11,12 +10,18 @@ public class ApiResponse<T> {
     private String status;
     private T data;
 
+    public ApiResponse(String message, String status, T errors) {
+        this.message = message;
+        this.status = status;
+        this.errors = errors;
+    }
+
     public ApiResponse(String message, String status) {
         this.message = message;
         this.status = status;
     }
 
-    private List<?> errors;
+    private T errors;
 
     public ApiResponse(String status, T data) {
         this.status = status;
