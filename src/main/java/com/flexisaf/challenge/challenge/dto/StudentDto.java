@@ -26,7 +26,7 @@ public class StudentDto {
     private String gender;
 
     @NotBlank(message = "date of birth cannot be blank", groups=StudentDto.Validation.class)
-    @Size(min = 10, max = 10, message = "date of birth should have a min and max of 10 characters", groups=StudentDto.Validation.class)
+    @Size(min = 10, max = 10, message = "date of birth should have a min and max of 10 characters, yyyy-mm-dd", groups=StudentDto.Validation.class)
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "date of birth pattern should be yyyy-mm-dd", groups=StudentDto.Validation.class)
     private String dateOfBirth;
 

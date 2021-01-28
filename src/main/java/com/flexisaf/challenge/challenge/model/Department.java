@@ -25,6 +25,6 @@ public class Department {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "department",  fetch = FetchType.EAGER)
     private List<Student> students;
 }

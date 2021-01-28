@@ -19,7 +19,6 @@ import java.util.List;
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final DepartmentRepository departmentRepository;
-    private final ModelMapper modelMapper = new ModelMapper();
 
     public StudentServiceImpl(StudentRepository studentRepository, DepartmentRepository departmentRepository) {
         this.studentRepository = studentRepository;
@@ -90,17 +89,30 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public String deleteStudent(String matricNumber) {
-        studentRepository.deleteStudentByMatricNumber(matricNumber);
-        return "student "+matricNumber+" deleted";
+        Student student = studentRepository.getStudentByMatricNumber("FLEXISAF/"+matricNumber);
+        if(student == null){
+            throw new GenericException("Student not found");
+        }
+        studentRepository.delete(student);
+        return "student FLEXISAF/"+matricNumber+" deleted";
     }
 
     @Override
     public StudentDto retrieveStudent(String matricNumber) throws Exception {
-        Student student = studentRepository.getStudentByMatricNumber(matricNumber);
+        Student student = studentRepository.getStudentByMatricNumber("FLEXISAF/"+matricNumber);
         if(student == null){
             throw new GenericException("Student not found");
         }
-        StudentDto studentDto = modelMapper.map(student, StudentDto.class);
+        StudentDto studentDto = new StudentDto();
+        studentDto.setFirstName(student.getFirstName());
+        studentDto.setOtherName(student.getOtherName());
+        studentDto.setLastName(student.getLastName());
+        studentDto.setMatricNumber(student.getMatricNumber());
+        studentDto.setDepartment(student.getDepartment().getName());
+        studentDto.setDateOfBirth(student.getDateOfBirth());
+        studentDto.setGender(student.getGender());
+        studentDto.setPhoneNumber(student.getPhoneNumber());
+        studentDto.setCreatedAt(student.getCreatedAt().toString());
         return studentDto;
     }
 
@@ -110,7 +122,7 @@ public class StudentServiceImpl implements StudentService {
         if(department == null){
             throw new GenericException("department not found");
         } else{
-            Student student = studentRepository.getStudentByMatricNumber(matricNumber);
+            Student student = studentRepository.getStudentByMatricNumber("FLEXISAF/"+matricNumber);
             student.setFirstName(studentDto.getFirstName());
             student.setOtherName(studentDto.getOtherName());
             student.setLastName(studentDto.getLastName());
@@ -121,7 +133,7 @@ public class StudentServiceImpl implements StudentService {
             if(updatedStudent==null){
                 throw new GenericException("failed to update Student");
             }
-            return "student "+matricNumber+" updated";
+            return "student FLEXISAF/"+matricNumber+" updated";
         }
     }
 }

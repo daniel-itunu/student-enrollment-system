@@ -17,14 +17,14 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @PostMapping("/department")
+    @PostMapping("/departments")
     public ResponseEntity<ApiResponse<String>> addDepartment(@Validated(DepartmentDto.Validation.class) @RequestBody DepartmentDto departmentDto){
         ApiResponse apiResponse = new ApiResponse(departmentService.addDepartment(departmentDto),"success");
         return ResponseEntity.ok(apiResponse);
     }
 
-    @GetMapping("/department")
-    public ResponseEntity<ApiResponse<DepartmentDto>> retrieveDepartment(String name) throws Exception {
+    @GetMapping("/departments/{name}")
+    public ResponseEntity<ApiResponse<DepartmentDto>> retrieveDepartment(@PathVariable("name") String name) throws Exception {
         ApiResponse apiResponse = new ApiResponse("success", departmentService.findDepartmentByName(name));
         return ResponseEntity.ok(apiResponse);
     }

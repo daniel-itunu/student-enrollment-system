@@ -3,11 +3,9 @@ package com.flexisaf.challenge.challenge.controller;
 import com.flexisaf.challenge.challenge.apiresponse.ApiResponse;
 import com.flexisaf.challenge.challenge.dto.StudentDto;
 import com.flexisaf.challenge.challenge.service.StudentService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -26,7 +24,7 @@ public class StudentController {
     }
 
     @GetMapping("/students/{matricNumber}")
-    public ResponseEntity<ApiResponse<StudentDto>> retrieveStudent(@PathVariable String matricNumber) throws Exception {
+    public ResponseEntity<ApiResponse<StudentDto>> retrieveStudent(@PathVariable("matricNumber") String matricNumber) throws Exception {
         ApiResponse apiResponse = new ApiResponse("success", studentService.retrieveStudent(matricNumber));
         return ResponseEntity.ok(apiResponse);
     }
@@ -38,13 +36,13 @@ public class StudentController {
     }
 
     @DeleteMapping("/students/{matricNumber}")
-    public ResponseEntity<ApiResponse<String>> deleteStudent(@PathVariable String matricNumber) throws Exception {
+    public ResponseEntity<ApiResponse<String>> deleteStudent(@PathVariable("matricNumber") String matricNumber) throws Exception {
         ApiResponse apiResponse = new ApiResponse(studentService.deleteStudent(matricNumber),"success");
         return ResponseEntity.ok(apiResponse);
     }
 
     @PutMapping("/students/{matricNumber}")
-    public ResponseEntity<ApiResponse<String>> updateStudent(@Validated(StudentDto.Validation.class) @RequestBody StudentDto studentDto, @PathVariable String matricNumber) throws Exception {
+    public ResponseEntity<ApiResponse<String>> updateStudent(@Validated(StudentDto.Validation.class) @RequestBody StudentDto studentDto, @PathVariable("matricNumber") String matricNumber) throws Exception {
         ApiResponse apiResponse = new ApiResponse(studentService.updateStudent(studentDto, matricNumber),"success" );
         return ResponseEntity.ok(apiResponse);
     }

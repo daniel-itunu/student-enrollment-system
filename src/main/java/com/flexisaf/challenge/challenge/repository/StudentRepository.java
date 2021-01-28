@@ -8,7 +8,6 @@ import java.util.List;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    void deleteStudentByMatricNumber(String matricNumber);
     Student getStudentByMatricNumber(String matricNumber);
     List<Student> getAllByFirstName(String firstName);
     List<Student>  getAllByLastName(String lastName);
