@@ -40,14 +40,12 @@ public class StudentSearchServiceImpl implements StudentSearchService {
             if(fullNames.length == 2){
                studentList.stream().forEach(student -> {
                    if(student.getFirstName().toLowerCase().equals(fullNames[0]) && student.getLastName().toLowerCase().equals(fullNames[1])){
-                       student.setId(0L);
                        students.add(student);
                    }
                });
             } else if(fullNames.length == 3){
                 studentList.stream().forEach(student -> {
                     if(student.getFirstName().toLowerCase().equals(fullNames[0]) && student.getLastName().toLowerCase().equals(fullNames[1]) && student.getOtherName().toLowerCase().equals(fullNames[2])){
-                        student.setId(0L);
                         students.add(student);
                     }
                 });
@@ -65,7 +63,6 @@ public class StudentSearchServiceImpl implements StudentSearchService {
 
             studentList.stream().forEach(student -> {
                 if((start.isEqual(student.getCreatedAt()) || start.isBefore(student.getCreatedAt())) && (end.isEqual(student.getCreatedAt()) || end.isAfter(student.getCreatedAt()))){
-                    student.setId(0L);
                     students.add(student);
                 }
             });
