@@ -54,11 +54,11 @@ public class StudentServiceImpl implements StudentService {
                 student.setMatricNumber("FLEXISAF/00" + number);
                 Student addedStudent = studentRepository.save(student);
                 if (addedStudent == null) {
-                    throw new GenericException("failed to add Student");
+                    return "failed to add student";
                 }
                 return "student added with matric number FLEXISAF/00" + number;
             }
-            throw new GenericException("student should be between age 18 and 25");
+            return "student should be between age 18 and 25";
         }
     }
 
@@ -90,7 +90,7 @@ public class StudentServiceImpl implements StudentService {
     public String deleteStudent(String matricNumber) {
         Student student = studentRepository.getStudentByMatricNumber("FLEXISAF/"+matricNumber);
         if(student == null){
-            throw new GenericException("Student not found, add a student first");
+            return "Student not found, add a student first";
         }
         studentRepository.delete(student);
         return "student FLEXISAF/"+matricNumber+" deleted";
@@ -119,7 +119,7 @@ public class StudentServiceImpl implements StudentService {
     public String updateStudent(StudentDto studentDto, String matricNumber) {
         Department department = departmentRepository.findDepartmentByName(studentDto.getDepartment());
         if(department == null){
-            throw new GenericException("department not found");
+            return "department not found";
         } else{
             Student student = studentRepository.getStudentByMatricNumber("FLEXISAF/"+matricNumber);
             student.setFirstName(studentDto.getFirstName());
@@ -134,12 +134,12 @@ public class StudentServiceImpl implements StudentService {
                 student.setDateOfBirth(studentDto.getDateOfBirth());
                 Student updatedStudent = studentRepository.save(student);
                 if(updatedStudent==null){
-                    throw new GenericException("failed to update Student");
+                    return "failed to update Student";
                 } else {
                     return "student FLEXISAF/"+matricNumber+" updated";
                 }
             }
-            throw new GenericException("student should be between age 18 and 25");
+            return "student should be between age 18 and 25";
         }
     }
 }

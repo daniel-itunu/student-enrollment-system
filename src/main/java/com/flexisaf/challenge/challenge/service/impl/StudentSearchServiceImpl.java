@@ -70,6 +70,7 @@ public class StudentSearchServiceImpl implements StudentSearchService {
             if(students.size() == 0){
                 throw new GenericException("no student found");
             }
+
             return students;
 
         } else {
