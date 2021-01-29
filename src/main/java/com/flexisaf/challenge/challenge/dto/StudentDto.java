@@ -39,7 +39,7 @@ public class StudentDto {
 
     @NotBlank(message = "phone1 cannot be blank", groups=StudentDto.Validation.class)
     @Size(max = 14, message = "phone1 should have a maximum of 14 characters", groups=StudentDto.Validation.class)
-    @Pattern(regexp = "^[+]234[0-9]{10}", message = "phone1 pattern is invalid", groups=StudentDto.Validation.class)
+    @Pattern(regexp = "^[+]234[0-9]{10}", message = "phone1 pattern is invalid, should start with +234", groups=StudentDto.Validation.class)
     private String phoneNumber;
 
 
