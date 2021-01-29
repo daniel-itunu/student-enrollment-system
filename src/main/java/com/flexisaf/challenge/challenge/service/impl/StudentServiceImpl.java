@@ -18,6 +18,8 @@ import java.util.List;
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final DepartmentRepository departmentRepository;
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 
     public StudentServiceImpl(StudentRepository studentRepository, DepartmentRepository departmentRepository) {
         this.studentRepository = studentRepository;
@@ -34,12 +36,10 @@ public class StudentServiceImpl implements StudentService {
             student.setFirstName(studentDto.getFirstName());
             student.setOtherName(studentDto.getOtherName());
             student.setLastName(studentDto.getLastName());
-            student.setDateOfBirth(studentDto.getDateOfBirth());
             student.setGender(studentDto.getGender());
             student.setPhoneNumber(studentDto.getPhoneNumber());
             student.setDepartment(department);
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate birthDate = LocalDate.parse(studentDto.getDateOfBirth(), formatter);
             Integer years = Period.between(birthDate, LocalDate.now()).getYears();
             if (years >= 18 && years <= 25) {
@@ -50,6 +50,7 @@ public class StudentServiceImpl implements StudentService {
                 } else {
                     number = size + 1;
                 }
+                student.setDateOfBirth(studentDto.getDateOfBirth());
                 student.setMatricNumber("FLEXISAF/00" + number);
                 Student addedStudent = studentRepository.save(student);
                 if (addedStudent == null) {
@@ -125,13 +126,20 @@ public class StudentServiceImpl implements StudentService {
             student.setOtherName(studentDto.getOtherName());
             student.setLastName(studentDto.getLastName());
             student.setDepartment(department);
-            student.setDateOfBirth(studentDto.getDateOfBirth());
             student.setPhoneNumber(studentDto.getPhoneNumber());
-            Student updatedStudent = studentRepository.save(student);
-            if(updatedStudent==null){
-                throw new GenericException("failed to update Student");
+
+            LocalDate birthDate = LocalDate.parse(studentDto.getDateOfBirth(), formatter);
+            Integer years = Period.between(birthDate, LocalDate.now()).getYears();
+            if (years >= 18 && years <= 25) {
+                student.setDateOfBirth(studentDto.getDateOfBirth());
+                Student updatedStudent = studentRepository.save(student);
+                if(updatedStudent==null){
+                    throw new GenericException("failed to update Student");
+                } else {
+                    return "student FLEXISAF/"+matricNumber+" updated";
+                }
             }
-            return "student FLEXISAF/"+matricNumber+" updated";
+            throw new GenericException("student should be between age 18 and 25");
         }
     }
 }
