@@ -27,7 +27,6 @@ public class StudentSearchServiceImpl implements StudentSearchService {
             studentList.stream().forEach(student -> {
                 if(student.getFirstName().toLowerCase().equals(in) || student.getLastName().toLowerCase().equals(in) ||
                  student.getDepartment().getName().toLowerCase().equals(in) || student.getOtherName().toLowerCase().equals(in) || student.getGender().toLowerCase().equals(in)){
-                    student.setId(0L);
                     students.add(student);
                 }
             });
