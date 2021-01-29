@@ -1,9 +1,11 @@
 package com.flexisaf.challenge.challenge.exception;
 
 import com.flexisaf.challenge.challenge.apiresponse.ApiResponse;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,6 +34,18 @@ public class CustomExceptionHandler {
     @ExceptionHandler(GenericException.class)
     public ResponseEntity<?> handleGenericException(GenericException exception) {
         return new ResponseEntity<>(new ApiResponse(exception.getLocalizedMessage(), "failed"), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
+        String[] causes = exception.getMessage().split(":");
+        return new ResponseEntity<>(new ApiResponse( causes[0], "failed"), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(JSONException.class)
+    public ResponseEntity<?> handleJSONException(JSONException exception) {
+        String[] causes = exception.getMessage().split(":");
+        return new ResponseEntity<>(new ApiResponse( causes[0], "failed"), HttpStatus.BAD_REQUEST);
     }
 }
 
