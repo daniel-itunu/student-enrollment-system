@@ -5,17 +5,15 @@ import com.flexisaf.challenge.challenge.model.Department;
 import com.flexisaf.challenge.challenge.model.Student;
 import com.flexisaf.challenge.challenge.repository.DepartmentRepository;
 import com.flexisaf.challenge.challenge.repository.StudentRepository;
-import com.flexisaf.challenge.challenge.service.DepartmentService;
 import com.flexisaf.challenge.challenge.service.StudentService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -117,6 +115,6 @@ class StudentServiceImplTest {
         studentDto.setDepartment("biology");
         studentDto.setPhoneNumber("+2347082547384");
         studentDto.setOtherName("name");
-        assertEquals("student FLEXISAF/001 updated", studentService.updateStudent(studentDto,"001"));
+        assertEquals("student FLEXISAF/001 updated", studentService.updateStudent(studentDto, "001"));
     }
 }

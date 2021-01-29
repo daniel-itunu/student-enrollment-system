@@ -3,14 +3,14 @@ package com.flexisaf.challenge.challenge.service.impl;
 import com.flexisaf.challenge.challenge.dto.DepartmentDto;
 import com.flexisaf.challenge.challenge.model.Department;
 import com.flexisaf.challenge.challenge.repository.DepartmentRepository;
-import com.flexisaf.challenge.challenge.repository.StudentRepository;
 import com.flexisaf.challenge.challenge.service.DepartmentService;
-import com.flexisaf.challenge.challenge.service.StudentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;

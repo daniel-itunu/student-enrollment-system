@@ -6,6 +6,7 @@ import com.flexisaf.challenge.challenge.service.StudentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -18,8 +19,8 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public ResponseEntity<ApiResponse<String>> addStudent(@Validated(StudentDto.Validation.class) @RequestBody StudentDto studentDto){
-        ApiResponse apiResponse = new ApiResponse(studentService.addStudent(studentDto),"success" );
+    public ResponseEntity<ApiResponse<String>> addStudent(@Validated(StudentDto.Validation.class) @RequestBody StudentDto studentDto) {
+        ApiResponse apiResponse = new ApiResponse(studentService.addStudent(studentDto), "success");
         return ResponseEntity.ok(apiResponse);
     }
 
@@ -31,19 +32,19 @@ public class StudentController {
 
     @GetMapping("/students")
     public ResponseEntity<ApiResponse<List<StudentDto>>> retrieveStudents() throws Exception {
-        ApiResponse apiResponse = new ApiResponse( "success", studentService.retrieveStudents());
+        ApiResponse apiResponse = new ApiResponse("success", studentService.retrieveStudents());
         return ResponseEntity.ok(apiResponse);
     }
 
     @DeleteMapping("/students/{matricNumber}")
     public ResponseEntity<ApiResponse<String>> deleteStudent(@PathVariable("matricNumber") String matricNumber) throws Exception {
-        ApiResponse apiResponse = new ApiResponse(studentService.deleteStudent(matricNumber),"success");
+        ApiResponse apiResponse = new ApiResponse(studentService.deleteStudent(matricNumber), "success");
         return ResponseEntity.ok(apiResponse);
     }
 
     @PutMapping("/students/{matricNumber}")
     public ResponseEntity<ApiResponse<String>> updateStudent(@Validated(StudentDto.Validation.class) @RequestBody StudentDto studentDto, @PathVariable("matricNumber") String matricNumber) throws Exception {
-        ApiResponse apiResponse = new ApiResponse(studentService.updateStudent(studentDto, matricNumber),"success" );
+        ApiResponse apiResponse = new ApiResponse(studentService.updateStudent(studentDto, matricNumber), "success");
         return ResponseEntity.ok(apiResponse);
     }
 }

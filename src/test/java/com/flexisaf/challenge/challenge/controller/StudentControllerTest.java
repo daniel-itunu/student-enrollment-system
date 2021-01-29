@@ -19,8 +19,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
 import java.time.LocalDateTime;
 import java.util.List;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -57,7 +59,7 @@ class StudentControllerTest {
         mapper.registerModule(new JavaTimeModule());
         mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        String requestJson=ow.writeValueAsString(studentDto );
+        String requestJson = ow.writeValueAsString(studentDto);
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/students")
                 .content(requestJson)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -114,17 +116,17 @@ class StudentControllerTest {
         studentDto.setPhoneNumber("+2347082563748");
         studentDto.setGender("m");
         studentDto.setDateOfBirth("2000-09-09");
-        when(studentService.updateStudent(studentDto,"001")).thenReturn("student updated");
+        when(studentService.updateStudent(studentDto, "001")).thenReturn("student updated");
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         mapper.registerModule(new JavaTimeModule());
         mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        String requestJson=ow.writeValueAsString(studentDto );
+        String requestJson = ow.writeValueAsString(studentDto);
         mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/students/001").content(requestJson)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status", Matchers.is("success")))
-               .andExpect(jsonPath("$.message", Matchers.is("student updated")));
+                .andExpect(jsonPath("$.message", Matchers.is("student updated")));
     }
 }

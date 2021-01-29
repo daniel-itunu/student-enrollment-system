@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -15,7 +16,7 @@ public class Student {
 
     @Id
     @GeneratedValue(generator = "incrementor")
-    @GenericGenerator(name="incrementor", strategy="increment")
+    @GenericGenerator(name = "incrementor", strategy = "increment")
     private long id;
 
     @Column(name = "first_name")

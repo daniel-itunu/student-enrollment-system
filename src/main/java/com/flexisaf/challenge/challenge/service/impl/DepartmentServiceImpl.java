@@ -7,6 +7,7 @@ import com.flexisaf.challenge.challenge.repository.DepartmentRepository;
 import com.flexisaf.challenge.challenge.service.DepartmentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         department.setName(departmentDto.getName().toLowerCase());
         department.setId(departmentDto.getId().toLowerCase());
         Department savedDepartment = departmentRepository.save(department);
-        if(savedDepartment == null){
+        if (savedDepartment == null) {
             return "failed to add department";
         }
         return "department added";
@@ -34,7 +35,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public DepartmentDto findDepartmentByName(String name) {
         Department department = departmentRepository.findDepartmentByName(name.toLowerCase());
-        if(department == null){
+        if (department == null) {
             throw new GenericException("department not found, add one first");
         }
         DepartmentDto departmentDto = modelMapper.map(department, DepartmentDto.class);
@@ -43,18 +44,18 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<DepartmentDto> retrieveDepartments() {
-       List<Department> departments = departmentRepository.findAll();
-       if(departments.size() == 0){
-           throw new GenericException("empty list of department, add a department first");
-       }
-       List<DepartmentDto> departmentDtos = new ArrayList<>();
+        List<Department> departments = departmentRepository.findAll();
+        if (departments.size() == 0) {
+            throw new GenericException("empty list of department, add a department first");
+        }
+        List<DepartmentDto> departmentDtos = new ArrayList<>();
         departments.stream().forEach(department -> {
-           DepartmentDto departmentDto = new DepartmentDto();
+            DepartmentDto departmentDto = new DepartmentDto();
             departmentDto.setId(department.getId());
             departmentDto.setName(department.getName());
             departmentDto.setCreatedAt(department.getCreatedAt().toString());
             departmentDtos.add(departmentDto);
         });
-       return departmentDtos;
+        return departmentDtos;
     }
 }

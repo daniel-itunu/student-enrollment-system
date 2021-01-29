@@ -10,6 +10,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,13 +40,13 @@ public class CustomExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
         String[] causes = exception.getMessage().split(":");
-        return new ResponseEntity<>(new ApiResponse( causes[0], "failed"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ApiResponse(causes[0], "failed"), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(JSONException.class)
     public ResponseEntity<?> handleJSONException(JSONException exception) {
         String[] causes = exception.getMessage().split(":");
-        return new ResponseEntity<>(new ApiResponse( causes[0], "failed"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ApiResponse(causes[0], "failed"), HttpStatus.BAD_REQUEST);
     }
 }
 

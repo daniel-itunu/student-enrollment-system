@@ -8,6 +8,7 @@ import com.flexisaf.challenge.challenge.repository.DepartmentRepository;
 import com.flexisaf.challenge.challenge.repository.StudentRepository;
 import com.flexisaf.challenge.challenge.service.StudentService;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -64,8 +65,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentDto> retrieveStudents() throws Exception {
-        List<Student>  students = studentRepository.findAll();
-        if(students.size() == 0){
+        List<Student> students = studentRepository.findAll();
+        if (students.size() == 0) {
             throw new GenericException("no student has been registered");
         }
         List<StudentDto> studentDtos = new ArrayList<>();
@@ -88,18 +89,18 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public String deleteStudent(String matricNumber) {
-        Student student = studentRepository.getStudentByMatricNumber("FLEXISAF/"+matricNumber);
-        if(student == null){
+        Student student = studentRepository.getStudentByMatricNumber("FLEXISAF/" + matricNumber);
+        if (student == null) {
             return "Student not found, add a student first";
         }
         studentRepository.delete(student);
-        return "student FLEXISAF/"+matricNumber+" deleted";
+        return "student FLEXISAF/" + matricNumber + " deleted";
     }
 
     @Override
     public StudentDto retrieveStudent(String matricNumber) throws Exception {
-        Student student = studentRepository.getStudentByMatricNumber("FLEXISAF/"+matricNumber);
-        if(student == null){
+        Student student = studentRepository.getStudentByMatricNumber("FLEXISAF/" + matricNumber);
+        if (student == null) {
             throw new GenericException("Student not found");
         }
         StudentDto studentDto = new StudentDto();
@@ -118,10 +119,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public String updateStudent(StudentDto studentDto, String matricNumber) {
         Department department = departmentRepository.findDepartmentByName(studentDto.getDepartment());
-        if(department == null){
+        if (department == null) {
             return "department not found";
-        } else{
-            Student student = studentRepository.getStudentByMatricNumber("FLEXISAF/"+matricNumber);
+        } else {
+            Student student = studentRepository.getStudentByMatricNumber("FLEXISAF/" + matricNumber);
             student.setFirstName(studentDto.getFirstName());
             student.setOtherName(studentDto.getOtherName());
             student.setLastName(studentDto.getLastName());
@@ -133,10 +134,10 @@ public class StudentServiceImpl implements StudentService {
             if (years >= 18 && years <= 25) {
                 student.setDateOfBirth(studentDto.getDateOfBirth());
                 Student updatedStudent = studentRepository.save(student);
-                if(updatedStudent==null){
+                if (updatedStudent == null) {
                     return "failed to update Student";
                 } else {
-                    return "student FLEXISAF/"+matricNumber+" updated";
+                    return "student FLEXISAF/" + matricNumber + " updated";
                 }
             }
             return "student should be between age 18 and 25";
